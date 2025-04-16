@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fun Ideas Generator</title>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e3f0ff 0%, #b3c6e3 100%);
+      font-family: 'Quicksand', Arial, sans-serif;
+      color: #234567;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .top-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      gap: 6px;
+      /* For visual balance above the container */
+    }
+    .top-links h3 {
+      margin: 0;
+      font-size: 1.07em;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .top-links a {
+      color: #3a6ea5;
+      background: #e3f0ff;
+      text-decoration: none;
+      border-radius: 7px;
+      padding: 5px 18px;
+      border: 1.5px solid #b3c6e3;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 6px rgba(50,80,150,0.07);
+      font-size: 1em;
+      display: inline-block;
+    }
+    .top-links a:hover {
+      background: #b3c6e3;
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(58,110,165,0.09);
+    }
+    .container {
+      max-width: 430px;
+      margin: 20px auto 60px auto;
+      background: rgba(255,255,255,0.92);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(50,80,150,0.13);
+      padding: 32px 28px 40px 28px;
+      text-align: center;
+    }
+    h1 {
+      color: #3a6ea5;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 2.1em;
+    }
+    .settings {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 24px 0 18px 0;
+    }
+    .settings label {
+      font-weight: 700;
+      font-size: 1em;
+      margin-bottom: 4px;
+      color: #3a6ea5;
+      text-align: left;
+    }
+    .settings input, .settings select {
+      border: 1.5px solid #b3c6e3;
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 1em;
+      background: #f7fbff;
+      color: #234567;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .settings input:focus, .settings select:focus {
+      border: 1.5px solid #3a6ea5;
+    }
+    #generateBtn {
+      margin-top: 14px;
+      background: linear-gradient(90deg, #7ecbff 0%, #3a6ea5 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 36px;
+      font-size: 1.1em;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(50,80,150,0.09);
+      transition: background 0.2s;
+    }
+    #generateBtn:hover {
+      background: linear-gradient(90deg, #3a6ea5 0%, #7ecbff 100%);
+    }
+    #idea {
+      min-height: 48px;
+      margin-top: 28px;
+      font-size: 1.25em;
+      color: #234567;
+      background: #e3f0ff;
+      border-radius: 10px;
+      padding: 18px 12px;
+      box-shadow: 0 2px 10px rgba(50,80,150,0.04);
+      transition: background 0.3s;
+    }
+    #description {
+      min-height: 36px;
+      margin-top: 18px;
+      font-size: 1em;
+      color: #42689b;
+      background: #f6faff;
+      border-radius: 10px;
+      padding: 14px 12px;
+      box-shadow: 0 2px 10px rgba(50,80,150,0.04);
+      transition: background 0.3s;
+    }
+    /* Confetti styles */
+    .confetti {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+      overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      opacity: 0.85;
+      animation: confetti-fall 1.2s linear forwards;
+    }
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(90vh) rotateZ(360deg);
+        opacity: 0.3;
+      }
+    }
+    @media (max-width: 600px) {
+      .container { max-width: 97vw; padding: 16px 2vw 26px 2vw;}
+      .top-links h3 { font-size: .98em; }
+      .top-links a { padding: 4px 12px; font-size: .96em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="top-links">
+    <h3>
+      <a href="../pages/index.html" target="_blank">Link to Resume</a>
+    </h3>
+    <h3>
+      <a href="../pages/my_web_from_scratch.html" target="_blank">Link My Website</a>
+    </h3>
+  </div>
+  <div class="container">
+    <h1>Fun Ideas Generator</h1>
+    <form class="settings" id="settingsForm" onsubmit="return false;">
+      <div>
+        <label for="people">How many people?</label>
+        <input type="number" id="people" min="1" max="20" value="2" required>
+      </div>
+      <div>
+        <label for="location">Location</label>
+        <input type="text" id="location" placeholder="e.g. Denver, park, home" required>
+      </div>
+      <div>
+        <label for="activityType">Activity Type</label>
+        <select id="activityType" required>
+          <option value="any">Any</option>
+          <option value="outside">Outside</option>
+          <option value="inside">Inside</option>
+          <option value="summer">Summer</option>
+          <option value="winter">Winter</option>
+        </select>
+      </div>
+      <div>
+        <label for="costType">Cost</label>
+        <select id="costType" required>
+          <option value="any">Any</option>
+          <option value="cheap">Cheap</option>
+          <option value="expensive">Expensive</option>
+        </select>
+      </div>
+    </form>
+    <button id="generateBtn">Generate Idea</button>
+    <div id="idea"></div>
+    <div id="description"></div>
+  </div>
+  <div class="confetti" id="confetti"></div>
+  <script>
+    // Ideas database with cost and specific descriptions
+    const ideas = [
+      { text: "Go for a scenic walk at {location}.", 
+        minPeople: 1, maxPeople: 10,
+        activityTypes: ["outside", "summer", "winter"],
+        cost: "cheap",
+        description: "Check out a popular trail nearby or walk through a botanical garden. Bring a camera or binoculars for bird watching!"
+      },
+      { text: "Try a new restaurant in {location}.",
+        minPeople: 1, maxPeople: 8,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "expensive",
+        description: "Look up top-rated places on Google Maps or Yelp. Consider international cuisine or a place with live music!"
+      },
+      { text: "Host a board game night at home.",
+        minPeople: 2, maxPeople: 8,
+        activityTypes: ["inside", "winter"],
+        cost: "cheap",
+        description: "Great games for groups: Codenames, Settlers of Catan, Azul, and Monopoly. Ask friends to bring their favorite games and snacks."
+      },
+      { text: "Visit a local museum in {location}.",
+        minPeople: 1, maxPeople: 6,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "expensive",
+        description: "Check if the museum has any special exhibits or free admission days. Try art museums, natural history museums, or quirky local collections."
+      },
+      { text: "Organize a picnic at {location} park.",
+        minPeople: 2, maxPeople: 20,
+        activityTypes: ["outside", "summer"],
+        cost: "cheap",
+        description: "Pack sandwiches, fruit, and a blanket. Bring outdoor games like frisbee, badminton, or bocce ball."
+      },
+      { text: "Go bowling in {location}.",
+        minPeople: 2, maxPeople: 12,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "expensive",
+        description: "Check for bowling alley specials (e.g. cosmic bowling!). Reserve lanes in advance for large groups."
+      },
+      { text: "Check out a live music event in {location}.",
+        minPeople: 1, maxPeople: 10,
+        activityTypes: ["inside", "outside", "summer", "winter"],
+        cost: "expensive",
+        description: "Look for free outdoor concerts in summer or cozy local venues in winter. Check listings on social media or community sites."
+      },
+      { text: "Plan a movie marathon at home.",
+        minPeople: 1, maxPeople: 8,
+        activityTypes: ["inside", "winter"],
+        cost: "cheap",
+        description: "Suggested marathons: Harry Potter, Star Wars, Lord of the Rings, Marvel, Disney classics, or Oscar winners. Make popcorn and cocoa!"
+      },
+      { text: "Try a group escape room in {location}.",
+        minPeople: 2, maxPeople: 8,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "expensive",
+        description: "Popular themes: detective mysteries, heists, haunted houses, and sci-fi labs. Book early and check for group rates."
+      },
+      { text: "Explore a local farmers market in {location}.",
+        minPeople: 1, maxPeople: 10,
+        activityTypes: ["outside", "summer"],
+        cost: "cheap",
+        description: "Bring a reusable bag. Sample fresh produce, local honey, and baked treats. Look for live music or craft stalls."
+      },
+      { text: "Go for a bike ride around {location}.",
+        minPeople: 1, maxPeople: 6,
+        activityTypes: ["outside", "summer"],
+        cost: "cheap",
+        description: "Follow a scenic path or trail. Bring water, sunscreen, and stop at a park or cafe along the way."
+      },
+      { text: "Attend a painting class in {location}.",
+        minPeople: 1, maxPeople: 8,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "expensive",
+        description: "Look for sip-and-paint studios or community art classes. Many classes include supplies and a relaxing atmosphere."
+      },
+      { text: "Have a potluck dinner at home.",
+        minPeople: 3, maxPeople: 12,
+        activityTypes: ["inside", "winter"],
+        cost: "cheap",
+        description: "Assign main dishes, sides, and desserts ahead of time. Try a theme: taco night, Italian, or comfort foods."
+      },
+      { text: "Visit an arcade in {location}.",
+        minPeople: 1, maxPeople: 6,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "expensive",
+        description: "Look for retro arcades or modern game centers with prizes. Set a spending limit for tokens or play late for discounts."
+      },
+      { text: "Take a yoga class together in {location}.",
+        minPeople: 1, maxPeople: 10,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "cheap",
+        description: "Try a beginner class or free session in the park. Alternatively, follow a YouTube yoga session at home."
+      },
+      { text: "Go on a photo scavenger hunt around {location}.",
+        minPeople: 2, maxPeople: 10,
+        activityTypes: ["outside", "summer"],
+        cost: "cheap",
+        description: "Make a list: something red, an animal, a funny sign, a local landmark, a group selfie. Winner gets a prize!"
+      },
+      { text: "Try a new coffee shop in {location}.",
+        minPeople: 1, maxPeople: 6,
+        activityTypes: ["inside", "summer", "winter"],
+        cost: "cheap",
+        description: "Order the house specialty! Bring a book or try a cozy corner for people watching or planning your next adventure."
+      },
+      { text: "Plan a themed dinner night at home.",
+        minPeople: 2, maxPeople: 8,
+        activityTypes: ["inside", "winter", "summer"],
+        cost: "cheap",
+        description: "Try Italian, Mexican, Japanese, or breakfast-for-dinner. Decorate for the theme and dress up for fun!"
+      },
+      { text: "Go ice skating at {location} rink.",
+        minPeople: 1, maxPeople: 8,
+        activityTypes: ["outside", "winter"],
+        cost: "expensive",
+        description: "Check for public skate times and rental skates. Warm up with hot chocolate afterward."
+      },
+      { text: "Have a snowball fight at {location}.",
+        minPeople: 2, maxPeople: 12,
+        activityTypes: ["outside", "winter"],
+        cost: "cheap",
+        description: "Pick teams, set boundaries, and make snow forts. Remember gloves and hats for warmth!"
+      },
+      { text: "Have a water balloon fight at {location}.",
+        minPeople: 2, maxPeople: 12,
+        activityTypes: ["outside", "summer"],
+        cost: "cheap",
+        description: "Fill balloons in advance. Set rules for safe play and have towels ready for a quick dry-off."
+      },
+      { text: "Go swimming at {location} pool.",
+        minPeople: 1, maxPeople: 10,
+        activityTypes: ["outside", "inside", "summer"],
+        cost: "cheap",
+        description: "Check pool hours and swim safety rules. Bring goggles, floats, and sunscreen for outdoor pools."
+      }
+    ];
+
+    function getRandomIdea(people, location, activityType, costType) {
+      // Filter by people count
+      let filtered = ideas.filter(
+        idea => people >= idea.minPeople && people <= idea.maxPeople
+      );
+      // Activity type
+      if (activityType && activityType !== "any") {
+        filtered = filtered.filter(idea =>
+          idea.activityTypes && idea.activityTypes.includes(activityType)
+        );
+      }
+      // Cost
+      if (costType && costType !== "any") {
+        filtered = filtered.filter(idea =>
+          idea.cost && idea.cost === costType
+        );
+      }
+      if (filtered.length === 0) return null;
+      const idx = Math.floor(Math.random() * filtered.length);
+      let selected = filtered[idx];
+      selected.text = selected.text.replace(/{location}/g, location || "your area");
+      return selected;
+    }
+
+    // Confetti animation
+    function launchConfetti() {
+      const confetti = document.getElementById('confetti');
+      confetti.innerHTML = '';
+      const colors = ['#7ecbff', '#3a6ea5', '#b3c6e3', '#e3f0ff', '#fff'];
+      for (let i = 0; i < 38; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-14px';
+        el.style.transform = `rotate(${Math.random() * 360}deg)`;
+        el.style.animationDelay = (Math.random() * 0.5) + 's';
+        confetti.appendChild(el);
+      }
+      setTimeout(() => { confetti.innerHTML = ''; }, 1500);
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const people = parseInt(document.getElementById('people').value, 10);
+      const location = document.getElementById('location').value.trim();
+      const activityType = document.getElementById('activityType').value;
+      const costType = document.getElementById('costType').value;
+      const idea = getRandomIdea(people, location, activityType, costType);
+      if (!idea) {
+        document.getElementById('idea').textContent = "No ideas found for that combination!";
+        document.getElementById('description').textContent = "";
+        return;
+      }
+      document.getElementById('idea').textContent = idea.text;
+      document.getElementById('description').textContent = idea.description || "";
+      launchConfetti();
+    });
+
+    document.getElementById('people').focus();
+  </script>
+</body>
+</html>

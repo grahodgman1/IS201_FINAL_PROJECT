@@ -1,0 +1,22 @@
+
+
+
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(4, 64, 125);
+}
+
+.my_background_color {
+    background-color: rgb(195, 208, 221);
+}
+
+
+.heading_text {
+    font-weight: bold;
+    color: rgb(42, 145, 192);
+    text-decoration: underline;
+}
+
+.another_heading_text {
+    color: rgb(57, 132, 189);
+}
